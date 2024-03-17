@@ -1,1 +1,120 @@
-nmn
+Looking for another engaging project? How about creating a weather
+forecast app or a recipe organizer using CSS, HTML, and JavaScript?
+Ready to apply your web development skills to a new and exciting
+challenge?
+
+
+**HTML**
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="recipe.css">
+</head>
+<body>
+    <h1>Recipe Organizer</h1>
+    <input class="searching" type="search" placeholder="enter your favourite food" id="searching"/>
+<ul class="main-container" id="main_container">
+   
+</ul>
+<script src="recipe.js"></script>
+</body>
+</html>
+
+**CSS**
+
+.smallMainContainerflexing{
+    display:flex;
+    flex-direction:row;
+    justify-content:center; 
+    background-color: antiquewhite;
+    border-radius: 3px;
+    border-width:1px;
+    margin-bottom:20px;
+    
+}
+
+
+.imageSizing{
+    height:200px;
+    width:200px;
+    margin-right:30px;
+} 
+
+.main-container{
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+}
+
+.searching{
+    text-align:center;
+    width:600px;
+    margin-bottom:30px;
+}
+**JAVASCRIPT**
+
+let mainContainer=document.getElementById("main_container");
+
+let searchingData=document.getElementById("searching")
+
+let inputdata=""
+
+function createAndAppend(each) {
+   
+    let small_main_container=document.createElement("div") 
+    small_main_container.classList.add("smallMainContainerflexing")
+    mainContainer.appendChild(small_main_container) 
+
+    let imageElement=document.createElement("img")
+    imageElement.classList.add("imageSizing")
+    imageElement.src=each.image 
+
+    small_main_container.appendChild(imageElement)
+
+    let detailsBox=document.createElement("div")
+    small_main_container.appendChild(detailsBox)  
+    let paragraph=document.createElement("h1")
+    paragraph.textContent=each.title 
+    detailsBox.appendChild(paragraph)
+
+    let paragraph_2=document.createElement("p")
+    paragraph_2.textContent=each. instructions
+    detailsBox.appendChild(paragraph_2) 
+
+ 
+
+}
+
+function AppendingRecipies(){
+    mainContainer.textContent=""
+   for (let each of newData){
+    let search=each.title 
+    if(search.includes(inputdata)){
+    createAndAppend(each)
+    }
+   } 
+}
+
+let apiUrl="https://api.spoonacular.com/recipes/random?number=10&apiKey=275d58779ccf4e22af03e792e8819fff" 
+let options={
+    method:"GET"
+}
+
+fetch(apiUrl,options) 
+.then(function(response){
+    return response.json() 
+})
+.then(function(jsonData){
+    RecipeList=jsonData 
+    newData=RecipeList.recipes
+    AppendingRecipies()
+})
+
+function gettingDetails(event){
+    console.log("trrr") 
+   inputdata=event.target.value  
+  AppendingRecipies()
+
+}
+
+searchingData.addEventListener("keydown",gettingDetails)
